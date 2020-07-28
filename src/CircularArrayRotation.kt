@@ -1,27 +1,25 @@
 // Complete the circularArrayRotation function below.
 fun circularArrayRotation(a: Array<Int>, k: Int, queries: Array<Int>): Array<Int> {
 
-    var rotatedArray: Array<Int> = a
-    val returnArray: MutableList<Int> = arrayListOf()
+    // a = defaultArray
+    // k = times rotation
+    // q = index we want to call
 
-    for (i in 0 until k) {
-        rotatedArray = rotateArray(rotatedArray)
-    }
+    val stepCount = k % a.size
+    val returnArray = mutableListOf<Int>()
+    var index: Int
 
     for (i in queries.indices) {
-        returnArray.add(rotatedArray[queries[i]])
+        index = if (queries[i] >= stepCount) {
+            queries[i] - stepCount
+        } else {
+            queries[i] + a.size - stepCount
+        }
+        //println("Index = $index")
+        returnArray.add(a[index])
     }
 
     return returnArray.toTypedArray()
-}
-
-fun rotateArray(array: Array<Int>): Array<Int> {
-
-    val newArray = array.toMutableList()
-    newArray.add(0, array[array.lastIndex])
-    newArray.removeAt(array.size)
-
-    return newArray.toTypedArray()
 }
 
 fun showArray(array: Array<Int>) {
@@ -32,7 +30,7 @@ fun showArray(array: Array<Int>) {
     println()
 }
 
+
 fun main() {
-    println(showArray(rotateArray(arrayOf(2, 4, 6, 8))))
     println(showArray(circularArrayRotation(arrayOf(1, 2, 3), 2, arrayOf(0, 1, 2))))
 }
